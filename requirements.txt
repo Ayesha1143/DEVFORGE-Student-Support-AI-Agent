@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+langchain
+langgraph
+python-dotenv
+requests
+pydantic
+jinja2
+python-multipart
+httpx
+ollama
+langchain-core

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ app_name }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/style.css') }}"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <img
+                src="/static/images/logo.png"
+                alt="DEVFORGE Logo"
+                class="logo"
+            >
+
+            <div>
+
+                <h1>DEVFORGE</h1>
+
+                <span>
+                    Student Support AI Agent
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="icon">
+                    ✨
+                </div>
+
+                <div>
+
+                    <h4>AI Powered</h4>
+
+                    <p>Smart Assistance</p>
+
+                </div>
+
+            </div>
+
+            <div class="feature">
+
+                <div class="icon">
+                    🔗
+                </div>
+
+                <div>
+
+                    <h4>LangGraph</h4>
+
+                    <p>Workflow</p>
+
+                </div>
+
+            </div>
+
+            <div class="feature">
+
+                <div class="icon">
+                    ☁️
+                </div>
+
+                <div>
+
+                    <h4>Ollama Cloud</h4>
+
+                    <p>Qwen Model</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="status">
+
+            <span class="dot"></span>
+
+            Online
+
+        </div>
+
+    </header>
+
+    <!-- ================= CHAT ================= -->
+
+    <main
+        id="chat-box"
+        class="chat-container"
+    >
+
+        <!-- Welcome Message -->
+
+        <div class="bot-row">
+
+            <img
+                src="/static/images/logo.png"
+                class="avatar"
+            >
+
+            <div class="bot-message">
+
+                <h3>
+
+                    👋 Hello!
+
+                    I'm your
+                    <span>DEVFORGE</span>
+                    Student Support AI Agent.
+
+                </h3>
+
+                <p>
+
+                    Ask me anything about:
+
+                </p>
+
+                <div class="chips">
+
+                    <span>Python</span>
+
+                    <span>FastAPI</span>
+
+                    <span>LangChain</span>
+
+                    <span>LangGraph</span>
+
+                    <span>GitHub</span>
+
+                    <span>AI & ML</span>
+
+                    <span>Deployment</span>
+
+                    <span>Projects</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ================= INPUT ================= -->
+
+    <footer class="input-section">
+
+        <div class="input-box">
+
+            <input
+
+                id="message"
+
+                type="text"
+
+                placeholder="Type your question here..."
+
+                autocomplete="off"
+
+            >
+
+            <button id="send-btn">
+
+                ➜ Send
+
+            </button>
+
+        </div>
+
+    </footer>
+
+</div>
+
+<!-- Markdown Renderer -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- Chat Script -->
+<script src="/static/js/script.js"></script>
+
+</body>
+
+</html>
