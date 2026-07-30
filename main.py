@@ -4,12 +4,13 @@ Main FastAPI Application
 Entry point for the DEVFORGE Student Support AI Agent.
 """
 
-from fastapi import FastAPI, HTTPException
+import traceback
+
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi import Request
 
 from app.config import settings
 from app.models import (
@@ -24,13 +25,31 @@ from app.agent import agent
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="DEVFORGE Student Support AI Agent powered by LangGraph and Ollama Cloud."
+    description="DEVFORGE Student Support AI Agent powered by LangGraph and Ollama Cloud.",
 )
 
 
-# -------------------------------
+# ===================================================
+# GLOBAL EXCEPTION HANDLER (Debugging)
+# ===================================================
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    print("\n========== UNHANDLED EXCEPTION ==========")
+    traceback.print_exc()
+    print("=========================================\n")
+
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": str(exc)
+        },
+    )
+
+
+# ===================================================
 # CORS
-# -------------------------------
+# ===================================================
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,24 +60,21 @@ app.add_middleware(
 )
 
 
-# -------------------------------
-# Static Files & Templates
-# -------------------------------
+# ===================================================
+# Static Files
+# ===================================================
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
 
-# -------------------------------
-# Home Page
-# -------------------------------
+# ===================================================
+# HOME
+# ===================================================
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    """
-    Render the chat interface.
-    """
     return templates.TemplateResponse(
         "index.html",
         {
@@ -68,30 +84,37 @@ async def home(request: Request):
     )
 
 
-# -------------------------------
-# Health Check
-# -------------------------------
+# ===================================================
+# HEALTH
+# ===================================================
 
-@app.get("/health", response_model=HealthResponse)
+@app.get("/health")
 async def health():
-    """
-    Check API health.
-    """
-    return HealthResponse(
-        status="healthy",
-        version=settings.APP_VERSION,
-    )
+    return {
+        "status": "healthy",
+        "version": settings.APP_VERSION,
+    }
 
 
-# -------------------------------
-# Chat Endpoint
-# -------------------------------
+# ===================================================
+# INFO
+# ===================================================
+
+@app.get("/info")
+async def info():
+    return {
+        "app_name": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "description": "DEVFORGE Student Support AI Agent",
+    }
+
+
+# ===================================================
+# CHAT
+# ===================================================
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    """
-    Chat with the AI agent.
-    """
 
     try:
 
@@ -107,24 +130,9 @@ async def chat(request: ChatRequest):
         )
 
     except Exception as e:
+        traceback.print_exc()
+
         raise HTTPException(
             status_code=500,
             detail=str(e),
         )
-
-
-# -------------------------------
-# API Information
-# -------------------------------
-
-@app.get("/info", response_model=HomeResponse)
-async def info():
-    """
-    Basic API information.
-    """
-
-    return HomeResponse(
-        app_name=settings.APP_NAME,
-        version=settings.APP_VERSION,
-        description="DEVFORGE Student Support AI Agent",
-    )
