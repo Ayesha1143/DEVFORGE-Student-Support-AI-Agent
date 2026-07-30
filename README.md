@@ -191,7 +191,7 @@ http://127.0.0.1:8000
 ## 💬 Chat Interface
 
 <p align="center">
-  <img src="static/images/chat.png" alt="Chat Interface" width="900">
+  <img src="static/images/chat.jpeg" alt="Chat Interface" width="900">
 </p>
 
 ---
