@@ -4,12 +4,11 @@ Main FastAPI Application
 Entry point for the DEVFORGE Student Support AI Agent.
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi import Request
 
 from app.config import settings
 from app.models import (
@@ -60,9 +59,9 @@ async def home(request: Request):
     Render the chat interface.
     """
     return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
+        request=request,
+        name="index.html",
+        context={
             "app_name": settings.APP_NAME,
         },
     )
